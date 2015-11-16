@@ -19,8 +19,6 @@ public class HenEvents : MonoBehaviour {
     public int i;
     
     public static float speed = 2.5f;
-    //public static float _speed;
-    private float nextFire = 0.0f;
     private float fireRate = 10.0f;
     private bool isPicking = false;
     private bool isMoving = false;
@@ -51,12 +49,14 @@ public class HenEvents : MonoBehaviour {
             }
 
             // if it's time to do something - 90% chance to move somewhere
-            check_dest();
+            if (isMoving) {
+                check_dest();
+            }
             if (Time.time > nextFire) {
                 nextFire = Time.time + fireRate;
                 if (!isMoving/* && !isPicking*/) {
                     if (Random.Range (0, 10) > 1) {
-                        hen_Move(   Random.Range (0,(target.length-1))  );
+                        hen_Move(   Random.Range (0,(target.Length-1))  );
                         }
                 }
             }
@@ -64,9 +64,9 @@ public class HenEvents : MonoBehaviour {
 
     void check_dest (){
         if (
-                (Mathf.Abs(Mathf.Abs (hen.transform.position.x) -  Mathf.Abs(target [i].transform.position.x) < minTargetDistance))
+                (Mathf.Abs(hen.transform.position.x - target [i].transform.position.x) < minTargetDistance)
                 &&
-                (Mathf.Abs(Mathf.Abs (hen.transform.position.z) - Mathf.Abs (target [i].transform.position.z) < minTargetDistance))
+                (Mathf.Abs(hen.transform.position.z - target [i].transform.position.z) < minTargetDistance)
             ) {
             isMoving = false;
             play_pickup()
@@ -83,7 +83,8 @@ public class HenEvents : MonoBehaviour {
             isPicking = true;
     }
 
-    void hen_Move (target_number){
+    void hen_Move (int target_number){
+        i = target_number
         isMoving = true;
         nav.enabled = true;            
         hen_animation [henWalkAnimation.name].layer = 1;
