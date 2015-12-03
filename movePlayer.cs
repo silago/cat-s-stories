@@ -39,8 +39,7 @@ public class movePlayer : MonoBehaviour {
 	void Start () {
 		_animation = GetComponent<Animation>();
 		_speed = speed;
-		player = (GameObject)this.gameObject;
-	
+		player = (GameObject)this.gameObject;	
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -61,40 +60,40 @@ public class movePlayer : MonoBehaviour {
 		//isSiting = false;
 		//isRuning = false;
 		//_Text.text = "Welcome!";
-
-		if (Input.GetKey (KeyCode.W)) {
-			player.transform.position += player.transform.forward * speed * Time.deltaTime;
-			//run.Play();
-			//_animation.CrossFade (walkAnimation.name);
-		}
-		if (Input.GetKey (KeyCode.S)) {
-			//speed = _speed/2;
-			player.transform.position -= player.transform.forward * speed *Time.deltaTime;
-		}
-		/*if (Input.GetKeyUp (KeyCode.S)) {
+		if (!isSiting) {
+			if (Input.GetKey (KeyCode.W)) {
+				player.transform.position += player.transform.forward * speed * Time.deltaTime;
+				//run.Play();
+				//_animation.CrossFade (walkAnimation.name);
+			}
+			if (Input.GetKey (KeyCode.S)) {
+				//speed = _speed/2;
+				player.transform.position -= player.transform.forward * speed * Time.deltaTime;
+			}
+			/*if (Input.GetKeyUp (KeyCode.S)) {
 			speed = _speed * 2;
 		}*/
-		if (Input.GetKey (KeyCode.A)) {
-			player.transform.position -= player.transform.right * speed * Time.deltaTime;
-		}
-		if (Input.GetKey (KeyCode.D)) {
-			player.transform.position += player.transform.right * speed * Time.deltaTime;
-		}
-		if ((Input.GetKey (KeyCode.Space))/*&& (lastJumpTime + jumpRepeatTime < Time.time)*/) {
-			player.transform.position += player.transform.up * jump * Time.deltaTime;
-			//lastJumpTime = Time.time;
-		}
-		if (Input.GetKey (KeyCode.LeftShift)) {
-			speed = _speed * 2;
-		}
-		if (Input.GetKeyUp (KeyCode.LeftShift)) {
-			speed = _speed;
-		} 
+			if (Input.GetKey (KeyCode.A)) {
+				player.transform.position -= player.transform.right * speed * Time.deltaTime;
+			}
+			if (Input.GetKey (KeyCode.D)) {
+				player.transform.position += player.transform.right * speed * Time.deltaTime;
+			}
+			if ((Input.GetKey (KeyCode.Space))/*&& (lastJumpTime + jumpRepeatTime < Time.time)*/) {
+				player.transform.position += player.transform.up * jump * Time.deltaTime;
+				//lastJumpTime = Time.time;
+			}
+			if (Input.GetKey (KeyCode.LeftShift)) {
+				speed = _speed * 2;
+			}
+			if (Input.GetKeyUp (KeyCode.LeftShift)) {
+				speed = _speed;
+			} 
 
-		if (Input.GetKey (KeyCode.R)) {
-			meow.Play ();
+			if (Input.GetKey (KeyCode.R)) {
+				meow.Play ();
+			}
 		}
-
 
 		if ((Input.GetAxis ("Vertical") != 0.0f) && !Input.GetKey (KeyCode.Space)) {
 			isMoving = true;
@@ -182,8 +181,8 @@ public class movePlayer : MonoBehaviour {
 			_animation [Sit_downAnimation.name].wrapMode = WrapMode.Once;
 
 			_animation.Play (sitAnimation.name);
-			//_animation [sitAnimation.name].layer = 1;
-			_animation [sitAnimation.name].wrapMode = WrapMode.Loop;
+			_animation [sitAnimation.name].layer = 1;
+			_animation [sitAnimation.name].wrapMode = WrapMode.Loop; 
 
 			isSiting= true;
 			return;
