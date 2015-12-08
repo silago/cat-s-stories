@@ -36,10 +36,37 @@ public class movePlayer : MonoBehaviour {
 	/*private double lastJumpTime = -10.0;
 	private double jumpRepeatTime = 0.01;*/
 	// Use this for initialization
+	
+	void SetInitialValues() {
+		var animation_list = new List<string>
+		{
+			 idleAnimation.name;
+			 walkAnimation.name;
+			 runAnimation.name;
+			 jumpPoseAnimation.name;
+			 ItchingAnimation.name;
+			 MeowAnimation.name;
+			 IdleSitAnimation.name;
+			 Sit_downAnimation.name;
+			 Stand_upAnimation.name;
+			 sitAnimation.name;
+		};
+
+		foreach (string animation_name in animation_list) {
+			 _animation [animation_name].layer = 1;
+			 _animation [animation_name].wrapMode = WrapMode.Once;
+		}
+
+		_animation = GetComponent<Animation>();
+		_speed = speed;
+		player = (GameObject)this.gameObject;
+	}
+
 	void Start () {
 		_animation = GetComponent<Animation>();
 		_speed = speed;
 		player = (GameObject)this.gameObject;	
+        SetInitialValues();
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -110,22 +137,11 @@ public class movePlayer : MonoBehaviour {
 			}
 		} else if (Input.GetKey (KeyCode.C)) {
 			_animation.Play (ItchingAnimation.name);
-			_animation [ItchingAnimation.name].layer = 1;
-			_animation [ItchingAnimation.name].wrapMode = WrapMode.Once;
 		} else if (Input.GetKey (KeyCode.R)) {			
 			_animation.Play (MeowAnimation.name);
-			_animation [MeowAnimation.name].layer = 1;
-			_animation [MeowAnimation.name].wrapMode = WrapMode.Once;
 		} else if (Input.GetKeyUp (KeyCode.F)) {	
 			SittingKitten ();
-			/*_animation.Play (IdleSitAnimation.name);
-			_animation [IdleSitAnimation.name].layer = 1;
-			_animation [IdleSitAnimation.name].wrapMode = WrapMode.Loop;*/
-		} else/* if ((Input.GetKey (KeyCode.F)) && (isSiting)) { // если сидит
-			_animation.Stop (IdleSitAnimation.name);
-			_animation.CrossFade (idleAnimation.name);
-			isSiting = false; 
-		} else*/ if ((Input.GetKey (KeyCode.Space))&& onGroud == false) {
+		} else if ((Input.GetKey (KeyCode.Space))&& onGroud == false) {
 			_animation.Play (jumpPoseAnimation.name);
 			_animation [jumpPoseAnimation.name].wrapMode = WrapMode.ClampForever;
 		} else if (onGroud == true) {
@@ -134,67 +150,26 @@ public class movePlayer : MonoBehaviour {
 		} else 
 			_animation.CrossFade (idleAnimation.name);
 	
-		/*if (isSiting){
-			Debug.Log ("isSiting");
-			if(Input.GetKey (KeyCode.F)){
-				isSiting = false;
-				_animation.Stop (IdleSitAnimation.name);
-			} else {
-				_animation.Play (IdleSitAnimation.name);
-				_animation [IdleSitAnimation.name].layer = 1;
-				_animation [IdleSitAnimation.name].wrapMode = WrapMode.Loop;
-			}
-		}*/
 
 		if (isMoving) {
-			/*if (isRuning)
-			{
-				run.pitch = 2.99f;
-				Debug.Log ("running");
-			}*/
+			player.transform.rotation = Quaternion.Euler (0, x, 0);
 			if (!run.isPlaying){
-
 				run.Play();
-
 			}
 		}
 		else run.Stop();
-
-
-
-		Quaternion rotate = Quaternion.Euler (0, x, 0);
-		if (isMoving)
-		player.transform.rotation = rotate;
 	}
 
 
 	void SittingKitten () {
 		//Debug.Log (isSiting);
 		if (!isSiting) {
-			/*_animation.Play (IdleSitAnimation.name);
-			_animation [IdleSitAnimation.name].layer = 1;
-
-			_animation [IdleSitAnimation.name].wrapMode = WrapMode.Loop;*/
-
-			_animation.Play (Sit_downAnimation.name);
-			_animation [Sit_downAnimation.name].layer = 1;
-			_animation [Sit_downAnimation.name].wrapMode = WrapMode.Once;
-
 			_animation.Play (sitAnimation.name);
-			_animation [sitAnimation.name].layer = 1;
-			_animation [sitAnimation.name].wrapMode = WrapMode.Loop; 
-
-			isSiting= true;
-			return;
+			_animation.Play (Sit_downAnimation.name);
 		} else if (isSiting) {
 			_animation.Stop (sitAnimation.name);
 			_animation.Play (Stand_upAnimation.name);
-			_animation [Stand_upAnimation.name].wrapMode = WrapMode.Once;
-			isSiting = false;
-			return;
 		}
-		//return;
+		isSiting=!isSiting
 	}
-
-
 }

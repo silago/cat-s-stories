@@ -16,6 +16,8 @@ public class StaticChiken : MonoBehaviour {
 		hen_animation = GetComponent<Animation>();
 		hen = (GameObject)this.gameObject;	
 		RandomTimeRate = Random.Range (5, 15);
+        hen_animation [henPickupunAnimation.name].layer = 1;
+        hen_animation [henPickupunAnimation.name].wrapMode = WrapMode.Once;
 	}
 	
 	// Update is called once per frame
@@ -26,8 +28,6 @@ public class StaticChiken : MonoBehaviour {
 			i = Random.Range (0,9);
 			if (i > 5) {
 				hen_animation.Play (henPickupunAnimation.name);
-				hen_animation [henPickupunAnimation.name].layer = 1;
-				hen_animation [henPickupunAnimation.name].wrapMode = WrapMode.Once;
 			}
 		}
 
